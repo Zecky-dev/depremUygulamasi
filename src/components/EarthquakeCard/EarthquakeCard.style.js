@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import colors from '../../assets/colors';
 
 export default StyleSheet.create({
     container: {
@@ -45,7 +46,7 @@ export default StyleSheet.create({
         flex:1,
     },
     magnitudeContainer: {
-        backgroundColor: 'crimson',
+        backgroundColor: colors.gold,
         width: 60,
         height: 60,
         borderRadius: 30,
