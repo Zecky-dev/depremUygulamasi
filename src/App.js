@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import {enableLatestRenderer} from 'react-native-maps';
 enableLatestRenderer();
 
@@ -21,12 +22,29 @@ import colors from './assets/colors';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+import functions from './utils/functions';
+
+// This is my router file
+
 const App = () => {
   const EarthquakesStack = () => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name='MainScreen' component={Main} options={{headerTitle:'Türkiyedeki Depremler',headerTitleAlign:'center',headerTintColor:'white',headerStyle:{backgroundColor:colors.dark}}}/>
+        <Stack.Screen name='MainScreen' component={Main} options={{
+          headerTitle:'Türkiyedeki Depremler',
+          headerTitleAlign:'center',
+          headerTintColor:'white',
+          headerStyle:{backgroundColor:colors.dark},
+        }}/>
         <Stack.Screen name='DetailsScreen' component={Details}/>
+      </Stack.Navigator>
+    )
+  }
+
+  const EmergencyStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name='EmergencyMainScreen' component={Emergency} options={{headerShown:false}}/>
       </Stack.Navigator>
     )
   }
@@ -45,9 +63,9 @@ const App = () => {
             title:'Depremler',
             tabBarIcon: ({color,size}) => (<Icon name='image-broken-variant' size={size} color={color}/>)
           }}/>
-          <Tab.Screen name='EmergencyTab' component={Emergency} options={{
+          <Tab.Screen name='EmergencyTab' component={EmergencyStack} options={{
             headerShown:false,
-            title:'Haber Ver',
+            title:'Acil Durum',
             tabBarActiveTintColor: 'red',
             tabBarIcon: ({focused,size,color}) => {
               let iconColor,iconName;

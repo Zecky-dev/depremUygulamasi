@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {View,FlatList} from 'react-native';
+import {View,FlatList, TouchableOpacity,Text} from 'react-native';
 import {enableLatestRenderer} from 'react-native-maps';
 enableLatestRenderer();
 
@@ -13,26 +13,27 @@ import Seperator from '../../components/ListItemSeperator/Seperator';
 // axios
 import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
+import functions from '../../utils/functions';
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import moment from 'moment';
+
 
 const Main = ({navigation}) => {
-    const [data,setData] = useState([]);
-    const [orderOpen,setOrderOpen] = useState(false);
-    const [apiURL,setApiURL] = useState('https://deprem.afad.gov.tr/apiv2/event/filter?start=2023-02-19&end=2023-02-20&limit=20'); 
-
-    const orderOptions = [
-        {label: 'Büyüklüğe göre artan',value:0},
-        {label: 'Büyüklüğe göre azalan',value:1},
-    ]
-
+    const [data,setData] = useState([]);        
     useEffect(
         () => {
-            const getEarthquakeData = async () => {
-            const response = await axios.get(apiURL);
-            const data = response.data;
-            setData(data);
+            const getEarthquakes = async () => {
+                const {currentDate,oneDayLater} = functions.getCurrentDate();
+                const response = await axios.get(`https://deprem.afad.gov.tr/apiv2/event/filter?start=${currentDate}&end=${oneDayLater}&orderby=timedesc`);
+                const data = response.data.slice(0,50); // Son 50 deprem
+                console.log('test');
+                setData(data);
             }
-            getEarthquakeData(); 
-        }, [apiURL]
+            getEarthquakes();
+            const interval = setInterval(() => getEarthquakes(), 60 * 1000);
+            return () => clearInterval(interval);
+        }, []
     )
 
     return (

@@ -9,7 +9,7 @@ import 'moment/locale/tr'
 
 const EarthquakeCard = ({data,navigation}) => {
     const {magnitude,depth,date,province,district} = data;
-    const formattedDate = moment(date).format('DD MMM YYYY - HH:mm')
+    const formattedDate = moment(date).add(3,'hours').format('DD MMM YYYY - HH:mm')
     const earthquakeStatus = (magnitude) => {
         const magnitudeNum = Number(magnitude);
         if(magnitudeNum < 3){
