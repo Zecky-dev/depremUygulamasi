@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View,Text,TouchableOpacity} from 'react-native';
 
 import styles from './EarthquakeCard.style';
@@ -70,4 +70,4 @@ const EarthquakeCard = ({data,navigation}) => {
     );
 };
 
-export default EarthquakeCard;
+export default memo(EarthquakeCard);

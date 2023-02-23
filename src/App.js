@@ -16,8 +16,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Icon
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import colors from './assets/colors';
+ import colors from './assets/colors';
+ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +36,7 @@ const App = () => {
           headerTintColor:'white',
           headerStyle:{backgroundColor:colors.dark},
         }}/>
-        <Stack.Screen name='DetailsScreen' component={Details}/>
+        <Stack.Screen name='DetailsScreen' component={Details} options={({route}) => ({headerTitle: `${route.params.data.location}`})}/>
       </Stack.Navigator>
     )
   }
