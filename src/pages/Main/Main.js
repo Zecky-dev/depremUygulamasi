@@ -1,5 +1,7 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, useContext} from 'react';
 import {View,FlatList, TouchableOpacity,Text,Button,ScrollView,PermissionsAndroid} from 'react-native';
+
+// react-native-maps renderer
 import {enableLatestRenderer} from 'react-native-maps';
 enableLatestRenderer();
 
@@ -25,19 +27,24 @@ import axios from 'axios';
 
 // util functions
 import functions from '../../utils/functions';
+
+// Geolocation
 import Geolocation from '@react-native-community/geolocation';
+
+// Theme context
+import {ThemeContext} from '../../context/ThemeContext';
 
 
 const Main = ({navigation}) => {
     const {currentDate,oneDayLater} = functions.getCurrentDate();
     const DEFAULT_URL = `https://deprem.afad.gov.tr/apiv2/event/filter?start=${currentDate}&end=${oneDayLater}&orderby=timedesc`;
-
+    
     const [data,setData] = useState([]);
     const [apiURL,setApiURL] = useState(DEFAULT_URL);
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState();
+    
     const [showFilters,setShowFilters] = useState(false);
-
     const [buttonActive,setButtonActive] = useState(false);
     const [magnitude,setMagnitude] = useState(1);
 
@@ -45,11 +52,10 @@ const Main = ({navigation}) => {
         () => {
             const getEarthquakes = async () => {
                 try {
-                    console.log(apiURL);
                     setLoading(true);
                     const response = await axios.get(apiURL);
                     setLoading(false);
-                    const data = response.data.slice(0,50); // Son 50 deprem
+                    const data = response.data.slice(0,50);
                     setData(data);
                 }
                 catch(error){
@@ -63,7 +69,7 @@ const Main = ({navigation}) => {
         }, [apiURL]
     )
 
-
+    // buttonActive, magnitude states useEffect
     useEffect(() => {
         if(buttonActive) {
             const requestLocationPermission = async () => {
@@ -96,7 +102,9 @@ const Main = ({navigation}) => {
         }
     },[buttonActive,magnitude])
 
+    // Main page renderer
     const renderMainPage = () => {
+        const theme = useContext(ThemeContext);
         if(loading){
             return <Loading/>
         }
@@ -143,8 +151,8 @@ const Main = ({navigation}) => {
                                         </View>
                                     </View>
                                 ) : null
-                            }
-                            
+                            }   
+                            <Text>{theme}</Text>
                             <FlatList
                             data={data}
                             extraData={data}
@@ -158,7 +166,6 @@ const Main = ({navigation}) => {
             )
         }
     }
-
 
     return (
         <View style={styles.container}>

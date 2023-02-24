@@ -1,9 +1,10 @@
 import React from 'react';
-import {View,Text, Button,FlatList} from 'react-native';
+import {View,Text,FlatList} from 'react-native';
 
 import WhistleSoundBox from '../../components/WhistleSoundBox/WhistleSoundBox';
 
 const Whistle = () => {
+    // Saved whistles
     const whistleList = [
         {
             id:1,

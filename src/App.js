@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, {useEffect,createContext} from 'react';
+import { useColorScheme } from 'react-native';
 import {enableLatestRenderer} from 'react-native-maps';
 enableLatestRenderer();
 
@@ -22,11 +22,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Theme context 
+import ThemeContextProvider from './context/ThemeContext';
+
 import functions from './utils/functions';
 
 // This is my router file
 
 const App = () => {
+
   const EarthquakesStack = () => {
     return (
       <Stack.Navigator>
@@ -52,43 +56,46 @@ const App = () => {
 
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{
-        tabBarLabelStyle: {
-          fontSize: 14,
-        }
-      }}>
-          <Tab.Screen name='EarthquakesTab' component={EarthquakesStack} options={{
-            headerShown:false,
-            title:'Depremler',
-            tabBarIcon: ({color,size}) => (<Icon name='image-broken-variant' size={size} color={color}/>)
-          }}/>
-          <Tab.Screen name='EmergencyTab' component={EmergencyStack} options={{
-            headerShown:false,
-            title:'Acil Durum',
-            tabBarActiveTintColor: 'red',
-            tabBarIcon: ({focused,size,color}) => {
-              let iconColor,iconName;
-              iconName = focused ? 'alert-box' : 'alert-box-outline';
-              iconColor = focused ? 'red' : color;
-              return (
-                <Icon name={iconName} size={size} color={iconColor}/>
-              )
+    <ThemeContextProvider>
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={{
+            tabBarLabelStyle: {
+              fontSize: 14,
             }
-          }}/>
-          <Tab.Screen name='WhistleTab' component={Whistle} options={{
-            title: 'Düdük',
-            headerShown:false,
-            tabBarIcon: ({focused,color,size}) => {
-              let iconName;
-              focused ? iconName = 'whistle' : iconName = 'whistle-outline';
-              return (
-                <Icon name={iconName} size={size} color={color}/>
-              )
-            }
-          }}/>
-      </Tab.Navigator>
-    </NavigationContainer>
+          }}>
+              <Tab.Screen name='EarthquakesTab' component={EarthquakesStack} options={{
+                headerShown:false,
+                title:'Depremler',
+                tabBarIcon: ({color,size}) => (<Icon name='image-broken-variant' size={size} color={color}/>)
+              }}/>
+              <Tab.Screen name='EmergencyTab' component={EmergencyStack} options={{
+                headerShown:false,
+                title:'Acil Durum',
+                tabBarActiveTintColor: 'red',
+                tabBarIcon: ({focused,size,color}) => {
+                  let iconColor,iconName;
+                  iconName = focused ? 'alert-box' : 'alert-box-outline';
+                  iconColor = focused ? 'red' : color;
+                  return (
+                    <Icon name={iconName} size={size} color={iconColor}/>
+                  )
+                }
+              }}/>
+              <Tab.Screen name='WhistleTab' component={Whistle} options={{
+                title: 'Düdük',
+                headerShown:false,
+                tabBarIcon: ({focused,color,size}) => {
+                  let iconName;
+                  focused ? iconName = 'whistle' : iconName = 'whistle-outline';
+                  return (
+                    <Icon name={iconName} size={size} color={color}/>
+                  )
+                }
+              }}/>
+          </Tab.Navigator>
+      </NavigationContainer>
+    </ThemeContextProvider>
+    
   )
 };
 

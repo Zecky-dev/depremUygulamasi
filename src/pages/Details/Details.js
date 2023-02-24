@@ -1,32 +1,24 @@
-import React,{useState,useEffect} from 'react';
-import {View,Text,Dimensions} from 'react-native';
+import React from 'react';
+import {View,Dimensions} from 'react-native';
 let {width,height} = Dimensions.get('window');
 const LATITUDE_DELTA = 0.5;
 const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
 
 import MapView, {Marker} from 'react-native-maps';
 
-
 const Details = ({route}) => {
     const {longitude,latitude,location} = route.params.data;
-    const coordinates = {
-        longitude: Number(longitude),
-        latitude: Number(latitude),
-    }
+    const coordinates = { longitude: Number(longitude), latitude: Number(latitude)}
     return (
         <View style={{flex:1}}>
-            <MapView
-            style={{
-                flex:1,
-            }}
+            <MapView style={{flex:1}}
             scrollEnabled={false}
             initialRegion={{
                 latitude: coordinates.latitude,
                 longitude: coordinates.longitude,    
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
-            }}
-            >
+            }}>
                 <Marker 
                     coordinate={{
                         latitude: coordinates.latitude,
@@ -35,7 +27,6 @@ const Details = ({route}) => {
                     title={location}
                 />
             </MapView>
-            
         </View>
     );     
 };
