@@ -9,11 +9,12 @@ import styles from './WhistleSound.style';
 let Sound = require('react-native-sound');
 Sound.setCategory('Playback');
 
-const WhistleSoundBox = ({sound}) => {
+const WhistleSoundBox = ({sound,theme}) => {
     const [pause,setPause] = useState(false);
     const [volume,setVolume] = useState(100);
     const [whistle,setWhistle] = useState();
 
+    const style = styles[theme];
 
 
     useEffect(() => {
@@ -28,13 +29,13 @@ const WhistleSoundBox = ({sound}) => {
     
 
     return (
-    <View style={styles.container}>
-        <View style={styles.iconContainer}>
+    <View style={style.container}>
+        <View style={style.iconContainer}>
             <Icon name='whistle' size={48} color='white'/>
         </View>
-        <Text style={styles.soundName}>{sound.name}</Text>
-        <View style={styles.controlsContainer}>
-            <TouchableOpacity style={styles.playPause} onPress={() => {
+        <Text style={style.soundName}>{sound.name}</Text>
+        <View style={style.controlsContainer}>
+            <TouchableOpacity style={style.playPause} onPress={() => {
                 setPause(!pause);
                 if(pause){
                     whistle.pause(

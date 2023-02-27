@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
+import colors from "../../assets/colors";
 
-export default StyleSheet.create({
+const baseStyles = {
     container: {
-        backgroundColor: '#343a40',
         flex:1,
         margin: 8,
         padding: 12,
@@ -29,4 +29,26 @@ export default StyleSheet.create({
         marginVertical: 8,
         borderRadius: 20,
     },
+}
+
+
+export default StyleSheet.create({
+    dark: {
+        ...baseStyles,
+        container: {
+            ...baseStyles.container,
+            backgroundColor: colors.darkStyle.secondary,
+        },
+
+
+    },
+
+    light: {
+        ...baseStyles,
+        container: {
+            ...baseStyles.container,
+            backgroundColor: colors.lightStyle.primary,
+        }
+    },
+
 })

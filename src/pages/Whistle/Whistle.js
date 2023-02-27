@@ -1,9 +1,13 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {View,Text,FlatList} from 'react-native';
+import colors from '../../assets/colors';
 
 import WhistleSoundBox from '../../components/WhistleSoundBox/WhistleSoundBox';
 
+import {ThemeContext} from '../../context/ThemeContext';
+ 
 const Whistle = () => {
+    const theme = useContext(ThemeContext);
     // Saved whistles
     const whistleList = [
         {
@@ -24,14 +28,24 @@ const Whistle = () => {
     ];
 
     return (
-        <View style={{flex:1, justifyContent:'center'}}>
+        <View style={{
+            flex:1,
+            justifyContent:'center',
+            backgroundColor: theme === "dark" ? colors.darkStyle.primary : colors.lightStyle.primary
+        }}>
            <FlatList
             contentContainerStyle={{flexGrow:1,justifyContent:'center'}}
             data={whistleList}
             numColumns={2}
-            renderItem={({item}) => <WhistleSoundBox sound={item}/>}
+            renderItem={({item}) => <WhistleSoundBox sound={item} theme={theme}/>}
             keyExtractor={item => item.id}
-            ListHeaderComponent={<Text style={{textAlign:'center',fontSize:64,color:'black',fontWeight:'200'}}>Düdük</Text>}
+            ListHeaderComponent={
+            <Text style={{
+                textAlign:'center',
+                fontSize:64,
+                color:theme === "dark" ? 'white' : 'black',
+                fontWeight:'200'
+            }}>Düdük</Text>}
             />
         </View>
     );

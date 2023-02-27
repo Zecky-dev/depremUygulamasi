@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../assets/colors';
 
-export default StyleSheet.create({
+const baseStyles = {
     container: {
         flexDirection:'row',
         margin: 8,
-        padding: 4,
-        borderRadius: 4,
+        padding: 6,
+        borderRadius: 4, 
     },
     section:{
         flex:1,
@@ -46,7 +46,6 @@ export default StyleSheet.create({
         flex:1,
     },
     magnitudeContainer: {
-        backgroundColor: colors.gold,
         width: 60,
         height: 60,
         borderRadius: 30,
@@ -54,7 +53,6 @@ export default StyleSheet.create({
         alignItems:'center',
     },
     magnitude:{
-        color:'white',
         fontSize: 24,
         fontWeight:'bold',
     },
@@ -64,5 +62,44 @@ export default StyleSheet.create({
     },
     depth: {
         marginTop: 4,
+    },
+}
+
+export default StyleSheet.create({
+    light: {
+        ...baseStyles,
+        container: {
+            ...baseStyles.container,
+            backgroundColor: colors.lightStyle.white,
+        },
+        magnitudeContainer: {
+            ...baseStyles.magnitudeContainer,
+            backgroundColor: colors.lightStyle.secondary,
+        },
+        magnitude: {
+            ...baseStyles.magnitude,
+            color: colors.lightStyle.white,
+        },
+        text: {
+            color: 'black',
+        }
+    },
+    dark: {
+        ...baseStyles,
+        container: {
+            ...baseStyles.container,
+            backgroundColor: colors.darkStyle.secondary,
+        },
+        magnitudeContainer: {
+            ...baseStyles.magnitudeContainer,
+            backgroundColor: colors.darkStyle.tertiary,
+        },
+        magnitude: {
+            ...baseStyles.magnitude,
+            color: colors.lightStyle.white,
+        },
+        text: {
+            color: 'white',
+        }
     }
 });

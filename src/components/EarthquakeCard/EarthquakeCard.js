@@ -7,7 +7,8 @@ import moment from 'moment';
 import 'moment/locale/tr'
 
 
-const EarthquakeCard = ({data,navigation}) => {
+const EarthquakeCard = ({data,navigation,theme}) => {
+    const style = styles[theme];
     const {magnitude,depth,date,province,district} = data;
     const formattedDate = moment(date).add(3,'hours').format('DD MMM YYYY - HH:mm')
     const earthquakeStatus = (magnitude) => {
@@ -35,33 +36,33 @@ const EarthquakeCard = ({data,navigation}) => {
         }
     }
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('DetailsScreen',{data})}>
+        <TouchableOpacity style={style.container} onPress={() => navigation.navigate('DetailsScreen',{data})}>
                 {/* Deprem büyüklüğü ve derinliği*/}
-                <View style={styles.left}>
-                    <View style={styles.magnitudeContainer}>
-                        <Text style={styles.magnitude}>{magnitude}</Text>
+                <View style={style.left}>
+                    <View style={style.magnitudeContainer}>
+                        <Text style={style.magnitude}>{magnitude}</Text>
                     </View>
-                    <View style={styles.depthContainer}>
-                        <Text style={styles.depth}>{depth} km derinlikte</Text>
+                    <View style={style.depthContainer}>
+                        <Text style={[style.depth,style.text]}>{depth} km derinlikte</Text>
                     </View>
                 </View>
                 {/* Deprem tarihi ve diğer bilgiler*/}
-                <View style={styles.right}>
-                    <View style={styles.dateContainer}>
+                <View style={style.right}>
+                    <View style={style.dateContainer}>
                         <Icon name='clock' size={18} style={{marginRight:4,}}/>
-                        <Text style={styles.date}>{formattedDate}</Text>
+                        <Text style={[style.date,style.text]}>{formattedDate}</Text>
                     </View>
-                    <View style={styles.rightBottomContainer}>
-                        <View style={styles.locationContainer}>
-                            <Text style={styles.province}>
+                    <View style={style.rightBottomContainer}>
+                        <View style={style.locationContainer}>
+                            <Text style={[style.province,style.text]}>
                                 {!province ? 'Bilinmiyor' : province}
                             </Text>
-                            <Text style={styles.district}>
+                            <Text style={[style.district,style.text]}>
                                 {!district ? 'Bilinmiyor' : district}
                             </Text>
                         </View>
-                        <View style={styles.statusContainer}>
-                            <Text style={styles.status}>{earthquakeStatus(magnitude)}</Text>
+                        <View style={style.statusContainer}>
+                            <Text style={[style.status,style.text]}>{earthquakeStatus(magnitude)}</Text>
                         </View>
                     </View>
                     

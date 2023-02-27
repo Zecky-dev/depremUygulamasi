@@ -31,11 +31,12 @@ import functions from '../../utils/functions';
 // Geolocation
 import Geolocation from '@react-native-community/geolocation';
 
-// Theme context
-import {ThemeContext} from '../../context/ThemeContext';
-
+import { ThemeContext } from '../../context/ThemeContext';
 
 const Main = ({navigation}) => {
+    const theme = useContext(ThemeContext);
+    const style = styles[theme];
+
     const {currentDate,oneDayLater} = functions.getCurrentDate();
     const DEFAULT_URL = `https://deprem.afad.gov.tr/apiv2/event/filter?start=${currentDate}&end=${oneDayLater}&orderby=timedesc`;
     
@@ -64,7 +65,7 @@ const Main = ({navigation}) => {
                 }
             }
             getEarthquakes();
-            const interval = setInterval(() => getEarthquakes(), 60 * 1000);
+            const interval = setInterval(() => getEarthquakes(), 2 * 60 * 1000);
             return () => clearInterval(interval);
         }, [apiURL]
     )
@@ -104,7 +105,6 @@ const Main = ({navigation}) => {
 
     // Main page renderer
     const renderMainPage = () => {
-        const theme = useContext(ThemeContext);
         if(loading){
             return <Loading/>
         }
@@ -113,29 +113,29 @@ const Main = ({navigation}) => {
         }
         else{
             return (
-                <View style={styles.container}>
-                    <View style={styles.subContainer}>
-                            <View style={styles.showFiltersContainer}>
+                <View style={style.container}>
+                    <View style={style.subContainer}>
+                            <View style={style.showFiltersContainer}>
                                 <TouchableOpacity onPress={() =>{
                                     setShowFilters(!showFilters)
-                                }} style={styles.showFiltersButton}>
+                                }} style={style.showFiltersButton}>
                                     <Icon name='filter' size={18} color='white'/>
-                                    <Text style={styles.showFiltersTitle}>Filtrele</Text>
+                                    <Text style={style.showFiltersTitle}>Filtrele</Text>
                                 </TouchableOpacity>
                             </View>
                             {
                                 showFilters ? (
-                                    <View style={styles.filters}>
-                                        <View style={styles.filterContainer}>
-                                            <Text style={styles.filterTitle}>Mesafe</Text>
+                                    <View style={style.filters}>
+                                        <View style={style.filterContainer}>
+                                            <Text style={style.filterTitle}>Mesafe</Text>
                                             <FilterButton title='Yakınımdakiler' onPress={() => {
                                                 setButtonActive(!buttonActive)
                                             }}
                                             buttonActive={buttonActive}
                                             />
                                         </View>
-                                        <View style={styles.filterContainer}>
-                                            <Text style={styles.filterTitle}>Büyüklük</Text>
+                                        <View style={style.filterContainer}>
+                                            <Text style={style.filterTitle}>Büyüklük</Text>
                                             <Slider
                                                 maximumValue={7}
                                                 minimumValue={1}
@@ -152,14 +152,13 @@ const Main = ({navigation}) => {
                                     </View>
                                 ) : null
                             }   
-                            <Text>{theme}</Text>
                             <FlatList
                             data={data}
                             extraData={data}
                             contentContainerStyle={{flexGrow:1}}
-                            renderItem={({item}) => (<EarthquakeCard data={item} navigation={navigation}/>)}
+                            renderItem={({item}) => (<EarthquakeCard data={item} navigation={navigation} theme={theme}/>)}
                             keyExtractor={(item) => item.eventID}
-                            ItemSeparatorComponent={<Seperator/>}
+                            // ItemSeparatorComponent={<Seperator/>}
                             />
                     </View>
                 </View>
